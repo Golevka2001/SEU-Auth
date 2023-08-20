@@ -1,3 +1,21 @@
+"""使用requests模拟登录东南大学统一身份认证平台（https://auth.seu.edu.cn/dist/#/dist/main/login）。
+
+函数说明：
+get_pub_key()函数用于获取RSA公钥；
+rsa_encrypt()函数用于使用RSA公钥加密用户密码；
+login()函数用于发起登陆请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入login()函数即可。
+
+使用方法：
+1. 导入login()函数；
+2. 调用login()函数，传入一卡通号、密码以及后续所要访问的服务url（可选），获取session和重定向url；
+3. 使用session访问重定向url，执行后续操作。
+
+Author: Golevka2001 (https://github.com/Golevka2001)
+Email: gol3vka@163.com
+Date: 2023/08/20
+License: GPL-3.0 License
+"""
+
 import base64
 import json
 from urllib.parse import unquote
