@@ -3,11 +3,11 @@
 函数说明：
 get_pub_key()函数用于获取RSA公钥；
 rsa_encrypt()函数用于使用RSA公钥加密用户密码；
-login()函数用于发起登陆请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入login()函数即可。
+seu_login()函数用于发起登陆请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
 
 使用方法：
-1. 导入login()函数；
-2. 调用login()函数，传入一卡通号、密码以及后续所要访问的服务url（可选），获取session和重定向url；
+1. 导入seu_login()函数；
+2. 调用seu_login()函数，传入一卡通号、密码以及后续所要访问的服务url（可选），获取session和重定向url；
 3. 使用session访问重定向url，执行后续操作。
 
 Author: Golevka2001 (https://github.com/Golevka2001)
@@ -41,7 +41,7 @@ def get_pub_key():
             'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
             'Connection': 'keep-alive',
             'Content-Type': 'application/json',
-            'Host': 'auth.seu.edu.cn',
+            # 'Host': 'auth.seu.edu.cn',
             'Origin': 'https://auth.seu.edu.cn',
             'Referer': 'https://auth.seu.edu.cn/dist/',
             'Sec-Fetch-Dest': 'empty',
@@ -83,8 +83,8 @@ def rsa_encrypt(message, pub_key):
     return cipher_text.decode()
 
 
-def login(username, password, service_url=''):
-    """发起登陆请求
+def seu_login(username, password, service_url=''):
+    """发起登陆请求。
 
     Args:
         username: 一卡通号
@@ -135,10 +135,10 @@ def login(username, password, service_url=''):
         return session, redirect_url
     except Exception as e:
         print('Failed to login, info:', e)
-        return session, None
+        return None, None
 
 
 if __name__ == '__main__':
     username = '【一卡通号】'
     password = '【密码】'
-    session, redirect_url = login(username, password)
+    session, redirect_url = seu_login(username, password)
