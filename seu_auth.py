@@ -87,12 +87,12 @@ def rsa_encrypt(message, pub_key):
 
 
 def seu_login(username, password, service_url=''):
-    """发起登陆请求。
+    """向统一身份认证平台发起登陆请求。
 
     Args:
         username: 一卡通号
         password: 用户密码（明文）
-        service_url: 所要访问服务的url，如'http://ehall.seu.edu.cn'
+        service_url: 所要访问服务的url，如`http://ehall.seu.edu.cn`
 
     Returns:
         session: 成功通过身份认证的session，用于后续访问其他服务
@@ -127,7 +127,7 @@ def seu_login(username, password, service_url=''):
         if not res.json()['success']:
             raise Exception(res.json()['info'])
 
-        print('Successfully login')
+        print('Successfully authenticated')
 
         # 未指定服务，无需重定向，直接返回session
         if res.json()['redirectUrl'] is None:
@@ -137,7 +137,7 @@ def seu_login(username, password, service_url=''):
         redirect_url = unquote(res.json()['redirectUrl'])
         return session, redirect_url
     except Exception as e:
-        print('Failed to login, info:', e)
+        print('Failed to authenticate, info:', e)
         return None, None
 
 
