@@ -8,3 +8,8 @@
 3. 函数 `seu_login()` 中调用以上两个函数，向服务器发送用户名（一卡通号）、加密后的密码，以及先前获取到的cookie，模拟登录。
 
 web 请求使用到 `requests` 库，RSA 加密使用到 `pycryptodome` 库。
+
+在 [`examples/`](./examples/) 中给出了两个使用示例，分别是：
+
+1. [`login_to_dekt.py`](./examples/login_to_dekt.py)：登录东南大学第二课堂；
+2. [`login_to_ehall.py`](./examples/login_to_ehall.py)：登录东南大学综合服务大厅。
