@@ -1,4 +1,4 @@
-"""使用requests模拟登录东南大学统一身份认证平台（https://auth.seu.edu.cn/dist/#/dist/main/login）。
+"""使用requests模拟登录新版东南大学统一身份认证平台（https://auth.seu.edu.cn/dist/#/dist/main/login）
 
 函数说明：
 get_pub_key()函数用于获取RSA公钥；
@@ -35,21 +35,24 @@ def get_pub_key():
     """
     try:
         session = requests.Session()
+        # Headers中的Content-Type、UA必填；
+        # Host、Origin、Referer在后续访问其他服务时大多需要填，内容自己去抓包看；
+        # 经测试，以下Headers中注释掉的字段均不影响身份认证的登录过程，但访问其他服务时需要自行抓包填写。
         headers = {
-            'Accept': 'application/json',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-            'Connection': 'keep-alive',
+            # 'Accept': 'application/json',
+            # 'Accept-Encoding': 'gzip, deflate, br',
+            # 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+            # 'Connection': 'keep-alive',
             'Content-Type': 'application/json',
             # 'Host': 'auth.seu.edu.cn',
-            'Origin': 'https://auth.seu.edu.cn',
-            'Referer': 'https://auth.seu.edu.cn/dist/',
-            'Sec-Fetch-Dest': 'empty',
-            'Sec-Fetch-Mode': 'cors',
-            'Sec-Fetch-Site': 'same-origin',
+            # 'Origin': 'https://auth.seu.edu.cn',
+            # 'Referer': 'https://auth.seu.edu.cn/dist/',
+            # 'Sec-Fetch-Dest': 'empty',
+            # 'Sec-Fetch-Mode': 'cors',
+            # 'Sec-Fetch-Site': 'same-origin',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/115.0.0.0 Safari/537.36'
-        }  # Headers中的Content-Type必填；UA有时会检测，最好填；Host、Origin、Referer在后续访问其他服务时大多需要填，内容自己去抓包看
+        }
         session.headers = headers
         url = 'https://auth.seu.edu.cn/auth/casback/getChiperKey'
         res = session.post(url=url, data=json.dumps({}))
@@ -141,4 +144,8 @@ def seu_login(username, password, service_url=''):
 if __name__ == '__main__':
     username = '【一卡通号】'
     password = '【密码】'
-    session, redirect_url = seu_login(username, password)
+    service_url = 'http://ehall.seu.edu.cn'
+    session, redirect_url = seu_login(username, password, service_url)
+    print(redirect_url)
+    res = session.get(redirect_url)
+    print(res.text)
