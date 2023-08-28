@@ -16,7 +16,7 @@
 
 从访问[统一身份认证页面](https://auth.seu.edu.cn/dist/#/dist/main/login)到完成登录，浏览器共发起了以下请求（过滤掉了图片、样式表等静态资源）：
 
-![](../assets/2023-08-27-20-25-43.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-27-20-25-43.png)
 
 下面逐个来查看每个请求的作用。
 
@@ -197,7 +197,7 @@
 
 响应中可以看到认证成功的信息以及最重要的 `tgtCookie` 字段，这就是我们要的 TGT 了，也就是 [verifyTgt](#3-verifytgt-post) 请求中要验证的那个。
 
-![](../assets/2023-08-27-22-11-39.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-27-22-11-39.png)
 
 至此，登录完成，再来捋一下流程：
 
@@ -212,45 +212,50 @@ graph LR
 
 输入用户名 `123456` 和密码 `qweasd`，启动浏览器调试工具，打开 `umi.80c8f8c8.js`，准备打断点。
 
-![](../assets/2023-08-28-22-00-16.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-00-16.png)
 
 在前面的分析中已经猜测会使用 RSA 对密码加密，所以搜索 `encrypt`，得到 9 个结果，除去 4 个在字符串中，其他都是函数名以及函数调用，从代码中的一些提示信息也能够看出来这部分确实是 RSA 加密相关。对搜索结果部分都随便打打断点运行一下看看。
 
-![](../assets/2023-08-28-22-02-16.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-02-16.png)
 
 点击登录按钮后，先停在了这里：
 
-![](../assets/2023-08-28-22-06-26.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-06-26.png)
 
 在上图中可以分析得出这些信息：
+
 `var t = kt.username` 是传入的一卡通号；
+
 `var n = new ot` 创建了一个 RSA 加解密对象的实例，包含了位数、指数等信息；
+
 `n.SetPublicKey(a.state.publicKey)` 为 RSA 对象设置了公钥；
+
 `var r = n.encrypt(kt.password)` 调用了某个 `encrypt()` 函数，对传入的密码进行了加密；
+
 `var o = kt.captcha` 是传入的验证码，不是我们关心的，跳过。
 
 下面进入刚才调用的 `encrypt` 函数内部：
 
-![](../assets/2023-08-28-22-20-47.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-20-47.png)
 
 可以看到 `e` 就是输入的密码，调用了另一个 RSA Key 对象的 `encrypt()` 函数，这个 `Z()` 呢大概率是个负责格式转换或者格式化的函数。
 
 好，继续往下看这另一个 `encrypt()` 函数：
 
-![](../assets/2023-08-28-22-35-51.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-35-51.png)
 
 这里调用 `Ye()` 执行的应该就是具体的加密流程了，就不再往里细看了，返回 PKCS#1 格式的加密结果，是十六进制的，所以可以猜测上面的 `Z()` 函数作用应该是将十六进制转换为 Base64 编码：
 
-![](../assets/2023-08-28-22-45-53.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-45-53.png)
 
 最后返回到一开始的调用处，`r` 便是最终得到的 Base64 编码的 RSA 加密结果，也就是 `casLogin` 请求的载荷中的 `password`：
 
-![](../assets/2023-08-28-22-49-18.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-22-49-18.png)
 
 ## 统一身份认证的 RSA 加密用的什么库？
 
 通过简单的搜索和比对，找到了 [jsencrypt](https://github.com/travist/jsencrypt) 这个库，函数的逻辑、功能和前文中的分析是一致的。
 
-![](../assets/2023-08-28-23-31-15.png)
+![](https://github.com/Golevka2001/SEU-Auth/tree/main/assets/2023-08-28-23-31-15.png)
 
 可以结合上正经变量名、注释再看一遍上面的过程，接下来就可以准备模拟登录了。
