@@ -20,11 +20,11 @@
 
 - <https://auth.seu.edu.cn/dist/#/dist/main/login>（下文中称为 ***新版身份认证系统*** ）
 
-    ![](assets/2023-08-31-13-32-37.png)
+    ![](./assets/2023-08-31-13-32-37.png)
 
 - <https://newids.seu.edu.cn/authserver/login>（下文中称为 ***旧版身份认证系统*** ）
 
-    ![](assets/2023-08-31-13-35-49.png)
+    ![](./assets/2023-08-31-13-35-49.png)
 
 现在一部分常用应用的身份认证已迁移到新版系统（比如[网上办事服务大厅](http://ehall.seu.edu.cn/)、[第二课堂](http://dekt.seu.edu.cn/)等），也还有不少还在使用旧版（比如[邮箱](https://mail.seu.edu.cn/)、[SRTP](http://cxcy.seu.edu.cn/)、网上办事服务大厅里的很多应用等），所以目前是两个版本的身份认证系统并存。
 
