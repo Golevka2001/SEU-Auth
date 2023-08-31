@@ -42,7 +42,7 @@ def get_dekt_user_id(username, password):
         # 更新Headers。UA必填，其他目前无所谓
         session.headers = {
             # 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;'
-                      # 'q=0.8,application/signed-exchange;v=b3;q=0.7',
+            #           'q=0.8,application/signed-exchange;v=b3;q=0.7',
             # 'Accept-Encoding': 'gzip, deflate',
             # 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
             # 'Connection': 'keep-alive',

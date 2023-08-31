@@ -1,11 +1,11 @@
-"""使用seu_auth模块登录统一身份认证的一个示例：登录综合服务大厅。
+"""使用seu_auth模块登录统一身份认证的一个示例：登录网上办事服务大厅。
 
 函数说明：
-login_to_ehall()函数调用了seu_auth模块，登录统一身份认证平台后跳转到综合服务大厅，获取用户信息并与传入的一卡通号核对，返回登录后的session。
+login_to_ehall()函数调用了seu_auth模块，登录统一身份认证平台后跳转到网上办事服务大厅，获取用户信息并与传入的一卡通号核对，返回登录后的session。
 
 使用方法：
 1. 配置账户信息：将`config.ini`重命名为`local_config.ini`，并填入一卡通号和密码（不需要引号）；
-2. 运行本文件，得到成功登录到综合服务大厅的session，可用于继续访问综合服务大厅的其他应用。
+2. 运行本文件，得到成功登录到网上办事服务大厅的session，可用于继续访问网上办事服务大厅的其他应用。
 
 Author: Golevka2001 (https://github.com/Golevka2001)
 Email: gol3vka@163.com
@@ -19,14 +19,14 @@ from seu_auth import seu_login
 
 
 def login_to_ehall(username, password):
-    """登录到综合服务大厅，用于后续访问综合服务大厅的其他应用。
+    """登录到网上办事服务大厅，用于后续访问网上办事服务大厅的其他应用。
 
     Args:
         username: 一卡通号
         password: 统一身份认证密码
 
     Returns:
-        session: 登录到综合服务大厅后的session
+        session: 登录到网上办事服务大厅后的session
     """
     try:
         # 登录统一身份认证平台
@@ -49,7 +49,7 @@ def login_to_ehall(username, password):
                           'Chrome/115.0.0.0 Safari/537.36'
         }
 
-        # 访问综合服务大厅首页
+        # 访问网上办事服务大厅首页
         res = session.get(redirect_url)
         if res.status_code != 200:
             raise Exception('Cannot access ehall page')
@@ -78,5 +78,5 @@ if __name__ == '__main__':
     config.read('local_config.ini')
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']
-    # 登录到综合服务大厅（会打印姓名用于核对账户信息，如不需要可注释掉）
+    # 登录到网上办事服务大厅（会打印姓名用于核对账户信息，如不需要可注释掉）
     session = login_to_ehall(username, password)

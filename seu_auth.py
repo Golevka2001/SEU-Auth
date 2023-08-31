@@ -78,12 +78,18 @@ def rsa_encrypt(message, pub_key):
     Returns:
         cipher_text: 加密后的用户密码（base64）
     """
-    pub_key = pub_key.replace('-', '+').replace('_', '/')  # base64url -> base64
-    pub_key = '-----BEGIN PUBLIC KEY-----\n' + pub_key + '\n-----END PUBLIC KEY-----'
-    rsa_key = RSA.importKey(pub_key)
-    cipher = PKCS1_v1_5.new(rsa_key)
-    cipher_text = base64.b64encode(cipher.encrypt(message.encode()))  # base64
-    return cipher_text.decode()
+    try:
+        pub_key = pub_key.replace('-', '+').replace('_', '/')  # base64url -> base64
+        pub_key = '-----BEGIN PUBLIC KEY-----\n' + pub_key + '\n-----END PUBLIC KEY-----'
+        rsa_key = RSA.importKey(pub_key)
+        cipher = PKCS1_v1_5.new(rsa_key)
+        cipher_text = base64.b64encode(cipher.encrypt(message.encode()))  # base64
+
+        print('Successfully encrypt password')
+        return cipher_text.decode()
+    except Exception as e:
+        print('Failed to encrypt password, info:', e)
+        return None
 
 
 def seu_login(username, password, service_url=''):
@@ -105,6 +111,8 @@ def seu_login(username, password, service_url=''):
 
     # 使用服务器返回的RSA公钥加密用户密码
     encrypted_password = rsa_encrypt(password, pub_key)
+    if not encrypted_password:
+        return None, None
 
     # 发起登陆请求
     try:
