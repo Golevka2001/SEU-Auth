@@ -1,2 +1,4 @@
-requests~=2.31.0
+beautifulsoup4~=4.12.2
+Js2Py~=0.74
 pycryptodome~=3.18.0
+requests~=2.31.0
