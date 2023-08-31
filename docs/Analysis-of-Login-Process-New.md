@@ -1,6 +1,6 @@
-# SEU-Auth Wiki -- Analysis of Login Process
+# SEU-Auth Wiki -- 新版身份认证系统登录过程分析
 
-- [SEU-Auth Wiki -- Analysis of Login Process](#seu-auth-wiki----analysis-of-login-process)
+- [SEU-Auth Wiki -- 新版身份认证系统登录过程分析](#seu-auth-wiki----新版身份认证系统登录过程分析)
   - [在登录时，我的浏览器做了什么？](#在登录时我的浏览器做了什么)
     - [1. dist `GET`](#1-dist-get)
     - [2. umi.80c8f8c8.js `GET`](#2-umi80c8f8c8js-get)
@@ -202,10 +202,14 @@
 至此，登录完成，再来捋一下流程：
 
 ```mermaid
-graph LR
-    A[请求公钥] --> B[使用公钥加密用户密码\n保存相对应的 Cookie]
-    B --> C[提交登录请求\n包含用户名、加密后的密码、Cookie]
-    C --> D[成功获取 TGT]
+flowchart LR
+    A[/"请求公钥\n保存对应的 Cookie"/]
+    B[/"使用公钥加密用户密码"/]
+    C[/"提交登录请求\n包含用户名、加密后的密码、Cookie"/]
+    D[/"成功获取 TGT，完成登录"/]
+    A-->B
+    B-->C
+    C-->D
 ```
 
 ## 打断点分析 JS 中的加密逻辑
@@ -234,7 +238,7 @@ graph LR
 
 `var o = kt.captcha` 是传入的验证码，不是我们关心的，跳过。
 
-下面进入刚才调用的 `encrypt` 函数内部：
+下面进入刚才调用的 `encrypt()` 函数内部：
 
 ![](../assets/2023-08-28-22-20-47.png)
 
