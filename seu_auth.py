@@ -53,7 +53,7 @@ def get_pub_key():
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/115.0.0.0 Safari/537.36'
         }
-        session.headers = headers
+        session.headers = dict(headers)
         url = 'https://auth.seu.edu.cn/auth/casback/getChiperKey'
         res = session.post(url=url, data=json.dumps({}))
 
@@ -61,10 +61,10 @@ def get_pub_key():
             raise Exception(f'[{res.status_code} {res.reason}]')
 
         pub_key = res.json()['publicKey']
-        print('Successfully get public key')
+        print('获取RSA公钥成功')
         return session, pub_key
     except Exception as e:
-        print('Failed to get public key, info:', e)
+        print('获取RSA公钥失败，错误信息', e)
         return None, None
 
 
@@ -85,10 +85,10 @@ def rsa_encrypt(message, pub_key):
         cipher = PKCS1_v1_5.new(rsa_key)
         cipher_text = base64.b64encode(cipher.encrypt(message.encode()))  # base64
 
-        print('Successfully encrypt password')
+        print('RSA加密成功')
         return cipher_text.decode()
     except Exception as e:
-        print('Failed to encrypt password, info:', e)
+        print('RSA加密失败，错误信息：', e)
         return None
 
 
@@ -104,6 +104,7 @@ def seu_login(username, password, service_url=''):
         session: 成功通过身份认证的session，用于后续访问其他服务
         redirect_url: 登陆后重定向到所要访问的服务的url
     """
+    print('[seu_login]')
     # 获取RSA公钥
     session, pub_key = get_pub_key()
     if not session:
@@ -135,7 +136,7 @@ def seu_login(username, password, service_url=''):
         if not res.json()['success']:
             raise Exception(res.json()['info'])
 
-        print('Successfully authenticated')
+        print('认证成功')
 
         # 未指定服务，无需重定向，直接返回session
         if res.json()['redirectUrl'] is None:
@@ -145,15 +146,18 @@ def seu_login(username, password, service_url=''):
         redirect_url = unquote(res.json()['redirectUrl'])
         return session, redirect_url
     except Exception as e:
-        print('Failed to authenticate, info:', e)
+        print('认证失败，错误信息：', e)
         return None, None
 
 
 if __name__ == '__main__':
     username = '【一卡通号】'
     password = '【密码】'
-    service_url = 'http://ehall.seu.edu.cn'
+    service_url = 'http://ehall.seu.edu.cn/login?service=http://ehall.seu.edu.cn/new/index.html'
     session, redirect_url = seu_login(username, password, service_url)
+    if not session or not redirect_url:
+        exit()
     print(redirect_url)
-    res = session.get(redirect_url)
-    print(res.text)
+    session.get(redirect_url)
+    res = session.get('http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841')
+    print(res.json())

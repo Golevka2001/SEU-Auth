@@ -42,12 +42,15 @@ def get_login_data():
             'DNT': '1',
             'Host': 'newids.seu.edu.cn',
             'Referer': 'https://newids.seu.edu.cn/authserver/logout?service=/authserver/login',
-            'Sec-Fetch-Dest': 'document', 'Sec-Fetch-Mode': 'navigate', 'Sec-Fetch-Site': 'same-origin',
-            'Sec-Fetch-User': '?1', 'Upgrade-Insecure-Requests': '1',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'same-origin',
+            'Sec-Fetch-User': '?1',
+            'Upgrade-Insecure-Requests': '1',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/115.0.0.0 Safari/537.36'
         }
-        session.headers = headers
+        session.headers = dict(headers)
         url = 'https://newids.seu.edu.cn/authserver/login'
         res = session.get(url=url)
 
@@ -72,12 +75,12 @@ def get_login_data():
         # 登录信息
         login_data = {'username': '', 'password': ''}
         for item in hidden_items[:-1]:
-            login_data[item['name']] = item['value']
+            login_data[str(item['name'])] = str(item['value'])
 
-        print('Successfully get login data')
+        print('获取登录信息成功')
         return session, key, login_data
     except Exception as e:
-        print('Failed to get login data, info:', e)
+        print('获取登录信息失败，错误信息：', e)
         return None, None, None
 
 
@@ -97,10 +100,10 @@ def aes_encrypt(message, key):
             js_obj.execute(file.read())
             cipher = js_obj.encryptAES(message, key)
 
-            print('Successfully encrypt password')
+            print('AES加密成功')
             return cipher
     except Exception as e:
-        print('Failed to encrypt password, info:', e)
+        print('AES加密失败，错误信息', e)
         return None
 
 
@@ -115,8 +118,9 @@ def seu_login(username, password):
         session: 登录成功后的session
     """
     # 访问身份认证页面，获取登录信息
+    print('[seu_login]')
     session, key, login_data = get_login_data()
-    if not session:
+    if not session or not key or not login_data:
         return None, None
 
     # 使用AES加密用户密码
@@ -148,7 +152,7 @@ def seu_login(username, password):
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                           'Chrome/115.0.0.0 Safari/537.36'
         }
-        session.headers = headers
+        session.headers = dict(headers)
         login_data['username'] = username
         login_data['password'] = encrypt_password
         res = session.post(url=url, data=login_data)
@@ -163,10 +167,10 @@ def seu_login(username, password):
             error_span = soup.select('#msg')[0]
             raise Exception(error_span.text.strip())
 
-        print('Successfully authenticate, name:', name_span[0].text.strip())
+        print('认证成功，用户姓名：', name_span[0].text.strip())
         return session
     except Exception as e:
-        print('Failed to authenticate, info:', e)
+        print('认证失败，错误信息', e)
         return None
 
 

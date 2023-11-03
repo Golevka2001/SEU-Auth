@@ -4,7 +4,7 @@
 login_to_ehall()函数调用了seu_auth模块，登录统一身份认证平台后跳转到网上办事服务大厅，获取用户信息并与传入的一卡通号核对，返回登录后的session。
 
 使用方法：
-1. 配置账户信息：将`config.ini`重命名为`local_config.ini`，并填入一卡通号和密码（不需要引号）；
+1. 配置账户信息：在`config.ini`中填入一卡通号和密码（不需要引号）；
 2. 运行本文件，得到成功登录到网上办事服务大厅的session，可用于继续访问网上办事服务大厅的其他应用。
 
 Author: Golevka2001 (https://github.com/Golevka2001)
@@ -12,8 +12,12 @@ Email: gol3vka@163.com
 Date: 2023/08/27
 License: GPL-3.0 License
 """
+import sys
+
+sys.path.append('..')
 
 import configparser
+import os
 
 from seu_auth import seu_login
 
@@ -28,12 +32,15 @@ def login_to_ehall(username, password):
     Returns:
         session: 登录到网上办事服务大厅后的session
     """
+    print('[login_to_ehall]')
     try:
         # 登录统一身份认证平台
         service_url = 'http://ehall.seu.edu.cn/login?service=http://ehall.seu.edu.cn/new/index.html'
         session, redirect_url = seu_login(username, password, service_url)
         if not session:
-            raise Exception('Login failed')
+            raise Exception('统一身份认证平台登录失败')
+        if not redirect_url:
+            raise Exception('获取重定向url失败')
 
         # 更新Headers。UA必填，其他目前无所谓
         session.headers = {
@@ -52,31 +59,33 @@ def login_to_ehall(username, password):
         # 访问网上办事服务大厅首页
         res = session.get(redirect_url)
         if res.status_code != 200:
-            raise Exception('Cannot access ehall page')
+            raise Exception('访问网上办事服务大厅失败')
 
         # 获取用户身份信息，检查是否登录成功
         user_info_url = 'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1693121329211'
         res = session.get(user_info_url)
         if res.status_code != 200:
-            raise Exception('Cannot get user information')
+            raise Exception('无法获取用户身份信息[{res.status_code}, {res.reason}]')
         if 'userId' in res.json():
             if res.json()['userId'] == username:
-                print('Successfully login to ehall, name:', res.json()['userName'])
+                # 会打印姓名用于核对账户信息，如不需要可注释掉
+                print('登录网上办事服务大厅成功，用户姓名：', res.json()['userName'])
             else:
-                raise Exception('Id not match')
+                raise Exception('ID不匹配')
         else:
-            raise Exception('Cannot get user information')
+            raise Exception('无法获取用户身份信息')
         return session
     except Exception as e:
-        print('Failed to login to ehall, info:', e)
+        print('登录网上办事服务大厅失败，错误信息：', e)
         return None
 
 
 if __name__ == '__main__':
-    # 读取配置文件，使用时将`config.ini`重命名为`local_config.ini`，并填入一卡通号和密码
+    # 读取配置文件，使用时须在`config.ini`中填入一卡通号和密码
     config = configparser.ConfigParser()
-    config.read('local_config.ini')
+    config_file_name = 'local_config.ini' if os.path.exists('local_config.ini') else 'config.ini'
+    config.read(config_file_name)
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']
-    # 登录到网上办事服务大厅（会打印姓名用于核对账户信息，如不需要可注释掉）
+    # 登录到网上办事服务大厅
     session = login_to_ehall(username, password)

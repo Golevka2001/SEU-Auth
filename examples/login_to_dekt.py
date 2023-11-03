@@ -4,7 +4,7 @@
 get_dekt_user_id()函数调用了seu_auth模块，登录统一身份认证平台后跳转到第二课堂，获取用户id。
 
 使用方法：
-1. 配置账户信息：将`config.ini`重命名为`local_config.ini`，并填入一卡通号和密码（不需要引号）；
+1. 配置账户信息：在`config.ini`中填入一卡通号和密码（不需要引号）；
 2. 运行本文件，即可获取第二课堂用户id，此id在后续访问第二课堂其他服务时大多需要通过`http://dekt.seu.edu.cn/xxx?.me=xxx`的方式传入。
 
 Author: Golevka2001 (https://github.com/Golevka2001)
@@ -12,9 +12,12 @@ Email: gol3vka@163.com
 Date: 2023/08/27
 License: GPL-3.0 License
 """
+import sys
+
+sys.path.append('..')
 
 import configparser
-import re
+import os
 
 from bs4 import BeautifulSoup
 
@@ -32,12 +35,15 @@ def get_dekt_user_id(username, password):
         session: 登录到第二课堂后的session
         user_id: 第二课堂用户id（似乎是固定的）
     """
+    print('[login_to_dekt]')
     try:
         # 登录统一身份认证平台
         service_url = 'http://dekt.seu.edu.cn/zhtw/'
         session, redirect_url = seu_login(username, password, service_url)
         if not session:
-            raise Exception('Login failed')
+            raise Exception('统一身份认证平台登录失败')
+        if not redirect_url:
+            raise Exception('获取重定向url失败')
 
         # 更新Headers。UA必填，其他目前无所谓
         session.headers = {
@@ -56,32 +62,34 @@ def get_dekt_user_id(username, password):
         # 访问第二课堂页面，获取用户id
         res = session.get(redirect_url)
         if res.status_code != 200:
-            raise Exception('Cannot access dekt page')
+            raise Exception(f'访问第二课堂失败[{res.status_code}, {res.reason}]')
 
         # 使用BeautifulSoup解析html
         soup = BeautifulSoup(res.text, 'html.parser')
-        title_tag = soup.title
-        user_id = title_tag['data-m']
+        if not soup.title:
+            raise Exception('BeautifulSoup解析失败')
+        user_id = soup.title['data-m']
         if not user_id:
-            raise Exception('BeautifulSoup failed')
-        # # 或者使用正则表达式
+            raise Exception('BeautifulSoup解析失败')
+        # # 或者使用正则表达式（需要在文件头添加import re）
         # pattern = r'<title.*?data-m="(.*?)".*?>'
         # match = re.search(pattern, res.text)
         # if match:
         #     user_id = match.group(1)
         # else:
-        #     raise Exception('Regex failed')
-        print('Successfully get user id:', user_id)
+        #     raise Exception('正则解析失败')
+        print('登录第二课堂成功，用户ID：', user_id)
         return session, user_id
     except Exception as e:
-        print('Failed to get user id, info:', e)
+        print('登录第二课堂失败，错误信息：', e)
         return None, None
 
 
 if __name__ == '__main__':
-    # 读取配置文件，使用时将`config.ini`重命名为`local_config.ini`，并填入一卡通号和密码
+    # 读取配置文件，使用时须在`config.ini`中填入一卡通号和密码
     config = configparser.ConfigParser()
-    config.read('local_config.ini')
+    config_file_name = 'local_config.ini' if os.path.exists('local_config.ini') else 'config.ini'
+    config.read(config_file_name)
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']
     # 获取第二课堂用户id
