@@ -4,27 +4,26 @@
 
 - [SEU-Auth](#seu-auth)
   - [SEU 身份认证系统介绍](#seu-身份认证系统介绍)
-    - [新版身份认证系统](#新版身份认证系统)
-    - [旧版身份认证系统](#旧版身份认证系统)
+    - [新版](#新版)
+    - [旧版](#旧版)
   - [目录说明](#目录说明)
   - [模拟登录脚本说明](#模拟登录脚本说明)
-    - [新版身份认证模拟登录](#新版身份认证模拟登录)
-    - [旧版身份认证模拟登录](#旧版身份认证模拟登录)
+    - [新版](#新版)
+    - [旧版](#旧版)
   - [使用示例](#使用示例)
   - [详细过程分析](#详细过程分析)
-
 
 ## SEU 身份认证系统介绍
 
 目前东南大学在使用的身份认证系统有主要两个版本，分别是：
 
-- <https://auth.seu.edu.cn/dist/#/dist/main/login>（下文中称为 ***新版身份认证系统*** ）
+- <https://auth.seu.edu.cn/dist/#/dist/main/login>（下文中称为 **_新版身份认证系统_** ）
 
-    ![](./assets/2023-08-31-13-32-37.png)
+  ![](./assets/2023-08-31-13-32-37.png)
 
-- <https://newids.seu.edu.cn/authserver/login>（下文中称为 ***旧版身份认证系统*** ）
+- <https://newids.seu.edu.cn/authserver/login>（下文中称为 **_旧版身份认证系统_** ）
 
-    ![](./assets/2023-08-31-13-35-49.png)
+  ![](./assets/2023-08-31-13-35-49.png)
 
 现在一部分常用应用的身份认证已迁移到新版系统（比如[网上办事服务大厅](http://ehall.seu.edu.cn/)、[第二课堂](http://dekt.seu.edu.cn/)等），也还有不少还在使用旧版（比如[邮箱](https://mail.seu.edu.cn/)、[SRTP](http://cxcy.seu.edu.cn/)、网上办事服务大厅里的很多应用等），所以目前是两个版本的身份认证系统并存。
 
@@ -32,7 +31,7 @@
 
 更老的身份认证（<http://xk.urp.seu.edu.cn/studentService/system/showLogin.action>）已经基本不会再使用。
 
-### 新版身份认证系统
+### 新版
 
 采用 RSA 加密用户密码，公钥通过单独的请求获取，Cookie 中需要附带与公钥相匹配的 UID。
 
@@ -51,7 +50,7 @@ flowchart LR
 
 详细的登录过程分析见 [Wiki](https://github.com/Golevka2001/SEU-Auth/wiki/%E6%96%B0%E7%89%88%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F%E7%99%BB%E5%BD%95%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90) 页面。
 
-### 旧版身份认证系统
+### 旧版
 
 采用 AES 加密用户密码，密钥和 Ticket 等写在 HTML 里，Ticket 需要写在载荷中。
 
@@ -88,7 +87,7 @@ flowchart LR
 
 ## 模拟登录脚本说明
 
-### 新版身份认证模拟登录
+### 新版
 
 在 [seu_auth.py](./seu_auth.py) 中实现了模拟登录[新版身份认证系统](https://auth.seu.edu.cn/dist/#/dist/main/login)，流程如下：
 
@@ -98,13 +97,13 @@ flowchart LR
 
 web 请求使用到 [requests](https://pypi.org/project/requests/) 库，RSA 加密使用到 [pycryptodome](https://pypi.org/project/pycryptodome/) 库。
 
-### 旧版身份认证模拟登录
+### 旧版
 
 在 [seu_auth_newids.py](./seu_auth_newids.py) 中实现了模拟登录[旧版身份认证系统](https://newids.seu.edu.cn/authserver/login)，流程如下：
 
 1. 函数 `get_login_data()` 从登录页面解析出 AES 密钥、Ticket 等信息；
 2. 函数 `aes_encrypt()` 对用户密码进行 AES 加密；
-3. 函数 `seu_login()` 中调用以上两个函数，向服务器发送用户名（一卡通号）、加密后的密码、Ticket等，模拟登录。
+3. 函数 `seu_login()` 中调用以上两个函数，向服务器发送用户名（一卡通号）、加密后的密码、Ticket 等，模拟登录。
 
 web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML 解析使用到 [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/) 库，AES 加密直接使用到请求返回的 [encrypt.js](./encrypt.js)（来自 [CryptoJS](https://github.com/sytelus/CryptoJS)），JavaScript 运行使用到 [Js2Py](https://pypi.org/project/Js2Py/)。
 
@@ -112,8 +111,9 @@ web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML �
 
 在 [examples/](./examples/) 中给出了两个使用示例，分别是：
 
-1. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂；
-2. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅。
+1. [get_postgraduate_lecture_list.py](./examples/get_postgraduate_lecture_list.py)：获取研究生素质讲座列表；
+2. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂；
+3. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅。
 
 ## 详细过程分析
 
