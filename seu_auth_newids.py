@@ -32,25 +32,21 @@ def get_login_data():
     try:
         session = requests.Session()
         # Headers有没有都行
-        headers = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;'
-                      'q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en,zh-CN;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'DNT': '1',
-            'Host': 'newids.seu.edu.cn',
-            'Referer': 'https://newids.seu.edu.cn/authserver/logout?service=/authserver/login',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'same-origin',
-            'Sec-Fetch-User': '?1',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/115.0.0.0 Safari/537.36'
-        }
-        session.headers = dict(headers)
+        # headers = {
+        #     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;'
+        #               'q=0.8,application/signed-exchange;v=b3;q=0.7',
+        #     'Accept-Encoding': 'gzip, deflate, br',
+        #     'Accept-Language': 'en,zh-CN;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        #     'Cache-Control': 'max-age=0',
+        #     'Connection': 'keep-alive',
+        #     'DNT': '1',
+        #     'Host': 'newids.seu.edu.cn',
+        #     'Referer': 'https://newids.seu.edu.cn/authserver/logout?service=/authserver/login',
+        #     'Upgrade-Insecure-Requests': '1',
+        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+        #                   'Chrome/115.0.0.0 Safari/537.36'
+        # }
+        # session.headers.update(headers)
         url = 'https://newids.seu.edu.cn/authserver/login'
         res = session.get(url=url)
 
@@ -132,27 +128,23 @@ def seu_login(username, password):
     try:
         url = 'https://newids.seu.edu.cn/authserver/login'
         # Headers目前测试依然不影响，看情况加
-        headers = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;'
-                      'q=0.8,application/signed-exchange;v=b3;q=0.7',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en,zh-CN;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6',
-            'Cache-Control': 'max-age=0',
-            'Connection': 'keep-alive',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'DNT': '1',
-            'Host': 'newids.seu.edu.cn',
-            'Origin': 'https://newids.seu.edu.cn',
-            'Referer': 'https://newids.seu.edu.cn/authserver/login',
-            'Sec-Fetch-Dest': 'document',
-            'Sec-Fetch-Mode': 'navigate',
-            'Sec-Fetch-Site': 'same-origin',
-            'Sec-Fetch-User': '?1',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/115.0.0.0 Safari/537.36'
-        }
-        session.headers = dict(headers)
+        # headers = {
+        #     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;'
+        #               'q=0.8,application/signed-exchange;v=b3;q=0.7',
+        #     'Accept-Encoding': 'gzip, deflate, br',
+        #     'Accept-Language': 'en,zh-CN;q=0.9,zh;q=0.8,en-GB;q=0.7,en-US;q=0.6',
+        #     'Cache-Control': 'max-age=0',
+        #     'Connection': 'keep-alive',
+        #     'Content-Type': 'application/x-www-form-urlencoded',
+        #     'DNT': '1',
+        #     'Host': 'newids.seu.edu.cn',
+        #     'Origin': 'https://newids.seu.edu.cn',
+        #     'Referer': 'https://newids.seu.edu.cn/authserver/login',
+        #     'Upgrade-Insecure-Requests': '1',
+        #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+        #                   'Chrome/115.0.0.0 Safari/537.36'
+        # }
+        # session.headers.update(headers)
         login_data['username'] = username
         login_data['password'] = encrypt_password
         res = session.post(url=url, data=login_data)

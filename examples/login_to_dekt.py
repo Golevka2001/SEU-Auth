@@ -1,4 +1,4 @@
-"""使用seu_auth模块登录统一身份认证的一个示例：登录第二课堂。
+"""使用seu_auth模块登录统一身份认证的一个示例：登录第二课堂（http://dekt.seu.edu.cn）。
 
 函数说明：
 get_dekt_user_id()函数调用了seu_auth模块，登录统一身份认证平台后跳转到第二课堂，获取用户id。
@@ -12,15 +12,13 @@ Email: gol3vka@163.com
 Date: 2023/08/27
 License: GPL-3.0 License
 """
-import sys
-
-sys.path.append('..')
-
 import configparser
 import os
+import sys
 
 from bs4 import BeautifulSoup
 
+sys.path.append('..')
 from seu_auth import seu_login
 
 
@@ -55,8 +53,9 @@ def get_dekt_user_id(username, password):
             # 'DNT': '1',
             # 'Host': 'dekt.seu.edu.cn',
             # 'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/115.0.0.0 Safari/537.36'
+            'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/115.0.0.0 Safari/537.36'
         }
 
         # 访问第二课堂页面，获取用户id
@@ -88,7 +87,8 @@ def get_dekt_user_id(username, password):
 if __name__ == '__main__':
     # 读取配置文件，使用时须在`config.ini`中填入一卡通号和密码
     config = configparser.ConfigParser()
-    config_file_name = 'local_config.ini' if os.path.exists('local_config.ini') else 'config.ini'
+    config_file_name = 'local_config.ini' if os.path.exists(
+        'local_config.ini') else 'config.ini'
     config.read(config_file_name)
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']

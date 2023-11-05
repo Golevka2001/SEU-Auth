@@ -1,4 +1,4 @@
-"""使用seu_auth模块登录统一身份认证的一个示例：登录网上办事服务大厅。
+"""使用seu_auth模块登录统一身份认证的一个示例：登录网上办事服务大厅（http://ehall.seu.edu.cn）。
 
 函数说明：
 login_to_ehall()函数调用了seu_auth模块，登录统一身份认证平台后跳转到网上办事服务大厅，获取用户信息并与传入的一卡通号核对，返回登录后的session。
@@ -12,13 +12,11 @@ Email: gol3vka@163.com
 Date: 2023/08/27
 License: GPL-3.0 License
 """
+import configparser
+import os
 import sys
 
 sys.path.append('..')
-
-import configparser
-import os
-
 from seu_auth import seu_login
 
 
@@ -52,8 +50,9 @@ def login_to_ehall(username, password):
             # 'DNT': '1',
             # 'Host': 'ehall.seu.edu.cn',
             # 'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/115.0.0.0 Safari/537.36'
+            'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/115.0.0.0 Safari/537.36'
         }
 
         # 访问网上办事服务大厅首页
@@ -83,7 +82,8 @@ def login_to_ehall(username, password):
 if __name__ == '__main__':
     # 读取配置文件，使用时须在`config.ini`中填入一卡通号和密码
     config = configparser.ConfigParser()
-    config_file_name = 'local_config.ini' if os.path.exists('local_config.ini') else 'config.ini'
+    config_file_name = 'local_config.ini' if os.path.exists(
+        'local_config.ini') else 'config.ini'
     config.read(config_file_name)
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']

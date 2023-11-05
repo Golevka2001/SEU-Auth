@@ -15,13 +15,12 @@ Email: gol3vka@163.com
 Date: 2023/11/03
 License: GPL-3.0 License
 """
-import sys
-
-sys.path.append('..')
 
 import configparser
 import os
+import sys
 
+sys.path.append('..')
 from seu_auth import seu_login
 
 
@@ -50,8 +49,12 @@ def get_postgraduate_lecture_list(username, password):
         if res.status_code != 200:
             raise Exception(f'访问研究生素质讲座系统失败[{res.status_code}, {res.reason}]')
         # 获取所有讲座信息
-        res = session.post('http://ehall.seu.edu.cn/gsapp/sys/jzxxtjapp/modules/hdyy/hdxxxs.do',
-                           data={'pageSize': 100, 'pageNumber': 1})
+        res = session.post(
+            'http://ehall.seu.edu.cn/gsapp/sys/jzxxtjapp/modules/hdyy/hdxxxs.do',
+            data={
+                'pageSize': 100,
+                'pageNumber': 1
+            })
         if res.status_code != 200:
             raise Exception(f'POST请求失败[{res.status_code}, {res.reason}]')
         lecture_list = res.json()['datas']['hdxxxs']['rows']
@@ -65,7 +68,8 @@ def get_postgraduate_lecture_list(username, password):
 if __name__ == '__main__':
     # 读取配置文件，使用时须在`config.ini`中填入一卡通号和密码
     config = configparser.ConfigParser()
-    config_file_name = 'local_config.ini' if os.path.exists('local_config.ini') else 'config.ini'
+    config_file_name = 'local_config.ini' if os.path.exists(
+        'local_config.ini') else 'config.ini'
     config.read(config_file_name)
     username = config['ACCOUNT']['username']
     password = config['ACCOUNT']['password']

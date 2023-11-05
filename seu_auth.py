@@ -43,17 +43,16 @@ def get_pub_key():
             # 'Accept-Encoding': 'gzip, deflate, br',
             # 'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6',
             # 'Connection': 'keep-alive',
-            'Content-Type': 'application/json',
+            'Content-Type':
+            'application/json',
             # 'Host': 'auth.seu.edu.cn',
             # 'Origin': 'https://auth.seu.edu.cn',
             # 'Referer': 'https://auth.seu.edu.cn/dist/',
-            # 'Sec-Fetch-Dest': 'empty',
-            # 'Sec-Fetch-Mode': 'cors',
-            # 'Sec-Fetch-Site': 'same-origin',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                          'Chrome/115.0.0.0 Safari/537.36'
+            'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+            'Chrome/115.0.0.0 Safari/537.36'
         }
-        session.headers = dict(headers)
+        session.headers.update(headers)
         url = 'https://auth.seu.edu.cn/auth/casback/getChiperKey'
         res = session.post(url=url, data=json.dumps({}))
 
@@ -79,11 +78,13 @@ def rsa_encrypt(message, pub_key):
         cipher_text: 加密后的用户密码（base64）
     """
     try:
-        pub_key = pub_key.replace('-', '+').replace('_', '/')  # base64url -> base64
+        pub_key = pub_key.replace('-', '+').replace('_',
+                                                    '/')  # base64url -> base64
         pub_key = '-----BEGIN PUBLIC KEY-----\n' + pub_key + '\n-----END PUBLIC KEY-----'
         rsa_key = RSA.importKey(pub_key)
         cipher = PKCS1_v1_5.new(rsa_key)
-        cipher_text = base64.b64encode(cipher.encrypt(message.encode()))  # base64
+        cipher_text = base64.b64encode(cipher.encrypt(
+            message.encode()))  # base64
 
         print('RSA加密成功')
         return cipher_text.decode()
@@ -153,11 +154,14 @@ def seu_login(username, password, service_url=''):
 if __name__ == '__main__':
     username = '【一卡通号】'
     password = '【密码】'
+    # 测试：登录网上办事服务大厅
     service_url = 'http://ehall.seu.edu.cn/login?service=http://ehall.seu.edu.cn/new/index.html'
     session, redirect_url = seu_login(username, password, service_url)
-    if not session or not redirect_url:
-        exit()
     print(redirect_url)
-    session.get(redirect_url)
-    res = session.get('http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841')
-    print(res.json())
+    # 登陆成功后获取用户信息
+    if session and redirect_url:
+        session.get(redirect_url)
+        res = session.get(
+            'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841'
+        )
+        print(res.json())
