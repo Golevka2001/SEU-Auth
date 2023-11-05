@@ -140,9 +140,9 @@ web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML �
 在 [examples/](./examples/) 中给出了以下几个使用示例，分别是：
 
 1. [get_postgraduate_lecture_list.py](./examples/get_postgraduate_lecture_list.py)：获取研究生素质讲座列表（新版系统）；
-2. [get_seu_point.py](./examples/get_seu_point.py)：查询东大信息化中的东豆余额（移动端）；
-3. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂（新版系统）；
-4. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）。
+2. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂（新版系统）；
+3. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）。
+4. [query_seu_points.py](./examples/query_seu_points.py)：查询东大信息化中的东豆余额（移动端）；
 
 _（注：括号中内容表示访问该应用所需要经过哪个身份认证系统）_
 
