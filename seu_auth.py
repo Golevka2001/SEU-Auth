@@ -67,7 +67,7 @@ def get_pub_key():
         return None, None
 
 
-def rsa_encrypt(message, pub_key):
+def rsa_encrypt(message: str, pub_key: str):
     """使用服务器返回的公钥对用户密码进行RSA加密。
 
     Args:
@@ -93,7 +93,7 @@ def rsa_encrypt(message, pub_key):
         return None
 
 
-def seu_login(username, password, service_url=''):
+def seu_login(username: str, password: str, service_url: str = ''):
     """向统一身份认证平台发起登陆请求。
 
     Args:
@@ -108,7 +108,7 @@ def seu_login(username, password, service_url=''):
     print('[seu_login]')
     # 获取RSA公钥
     session, pub_key = get_pub_key()
-    if not session:
+    if not session or not pub_key:
         return None, None
 
     # 使用服务器返回的RSA公钥加密用户密码

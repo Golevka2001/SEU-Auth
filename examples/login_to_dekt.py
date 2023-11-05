@@ -22,7 +22,7 @@ sys.path.append('..')
 from seu_auth import seu_login
 
 
-def get_dekt_user_id(username, password):
+def get_dekt_user_id(username: str, password: str):
     """获取第二课堂用户id，用于后续访问第二课堂其他服务。
 
     Args:

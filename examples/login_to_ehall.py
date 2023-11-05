@@ -20,7 +20,7 @@ sys.path.append('..')
 from seu_auth import seu_login
 
 
-def login_to_ehall(username, password):
+def login_to_ehall(username: str, password: str):
     """登录到网上办事服务大厅，用于后续访问网上办事服务大厅的其他应用。
 
     Args:

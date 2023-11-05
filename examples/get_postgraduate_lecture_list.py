@@ -24,7 +24,7 @@ sys.path.append('..')
 from seu_auth import seu_login
 
 
-def get_postgraduate_lecture_list(username, password):
+def get_postgraduate_lecture_list(username: str, password: str):
     """登录到研究生素质讲座系统，用于后续在此系统中进行其他操作。
 
     Args:

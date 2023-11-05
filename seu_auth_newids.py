@@ -67,7 +67,7 @@ def get_login_data():
         </input>]
         """
         # 密钥
-        key = hidden_items[-1]['value']
+        key = str(hidden_items[-1]['value'])
         # 登录信息
         login_data = {'username': '', 'password': ''}
         for item in hidden_items[:-1]:
@@ -80,7 +80,7 @@ def get_login_data():
         return None, None, None
 
 
-def aes_encrypt(message, key):
+def aes_encrypt(message: str, key: str):
     """使用获取到的密钥对用户密码进行AES加密，需要调用`encrypt.js`中的`encryptAES()`函数。
 
     Args:
@@ -103,7 +103,7 @@ def aes_encrypt(message, key):
         return None
 
 
-def seu_login(username, password):
+def seu_login(username: str, password: str):
     """向统一身份认证平台发起登陆请求。
 
     Args:
