@@ -64,7 +64,7 @@ def login_to_ehall(username: str, password: str):
         user_info_url = 'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1693121329211'
         res = session.get(user_info_url)
         if res.status_code != 200:
-            raise Exception('无法获取用户身份信息[{res.status_code}, {res.reason}]')
+            raise Exception(f'无法获取用户身份信息[{res.status_code}, {res.reason}]')
         if 'userId' in res.json():
             if res.json()['userId'] == username:
                 # 会打印姓名用于核对账户信息，如不需要可注释掉

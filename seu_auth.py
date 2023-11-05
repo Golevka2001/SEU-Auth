@@ -54,10 +54,10 @@ def get_pub_key():
         }
         session.headers.update(headers)
         url = 'https://auth.seu.edu.cn/auth/casback/getChiperKey'
-        res = session.post(url=url, data=json.dumps({}))
 
+        res = session.post(url=url)
         if res.status_code != 200:
-            raise Exception(f'[{res.status_code} {res.reason}]')
+            raise Exception(f'[{res.status_code}, {res.reason}]')
 
         pub_key = res.json()['publicKey']
         print('获取RSA公钥成功')
@@ -130,10 +130,10 @@ def seu_login(username: str, password: str, service_url: str = ''):
             'username': username,
             'wxBinded': False,
         }
-        res = session.post(url=url, data=json.dumps(data))
 
+        res = session.post(url=url, data=json.dumps(data))
         if res.status_code != 200:
-            raise Exception(f'[{res.status_code} {res.reason}]')
+            raise Exception(f'[{res.status_code}, {res.reason}]')
         if not res.json()['success']:
             raise Exception(res.json()['info'])
 

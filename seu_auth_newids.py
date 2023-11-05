@@ -48,10 +48,10 @@ def get_login_data():
         # }
         # session.headers.update(headers)
         url = 'https://newids.seu.edu.cn/authserver/login'
-        res = session.get(url=url)
 
+        res = session.get(url=url)
         if res.status_code != 200:
-            raise Exception(f'[{res.status_code} {res.reason}]')
+            raise Exception(f'[{res.status_code}, {res.reason}]')
 
         # 使用BeautifulSoup解析html
         soup = BeautifulSoup(res.text, 'html.parser')
@@ -147,10 +147,10 @@ def seu_login(username: str, password: str):
         # session.headers.update(headers)
         login_data['username'] = username
         login_data['password'] = encrypt_password
-        res = session.post(url=url, data=login_data)
 
+        res = session.post(url=url, data=login_data)
         if res.status_code != 200:
-            raise Exception(f'[{res.status_code} {res.reason}]')
+            raise Exception(f'[{res.status_code}, {res.reason}]')
 
         # 解析返回页面，判断是否登录成功
         soup = BeautifulSoup(res.text, 'html.parser')
