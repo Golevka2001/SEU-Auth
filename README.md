@@ -146,6 +146,8 @@ web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML �
 
 _（注：括号中内容表示访问该应用所需要经过哪个身份认证系统）_
 
+项目 [Earn-SEU-Points-Daily](https://github.com/Golevka2001/Earn-SEU-Points_Daily) 使用到移动端认证脚本登录东大信息化 App。
+
 ## 详细过程分析
 
 详细的登录过程分析见 [Wiki](https://github.com/Golevka2001/SEU-Auth/wiki/%E6%96%B0%E7%89%88%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81%E7%B3%BB%E7%BB%9F%E7%99%BB%E5%BD%95%E8%BF%87%E7%A8%8B%E5%88%86%E6%9E%90) 页面。
