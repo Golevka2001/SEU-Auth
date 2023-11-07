@@ -141,12 +141,14 @@ web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML �
 
 1. [get_postgraduate_lecture_list.py](./examples/get_postgraduate_lecture_list.py)：获取研究生素质讲座列表（新版系统）；
 2. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂（新版系统）；
-3. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）。
-4. [query_seu_points.py](./examples/query_seu_points.py)：查询东大信息化中的东豆余额（移动端）；
+3. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）；
+4. [query_seu_points.py](./examples/query_seu_points.py)：查询东大信息化中的东豆余额（移动端）。
 
 _（注：括号中内容表示访问该应用所需要经过哪个身份认证系统）_
 
-项目 [Earn-SEU-Points-Daily](https://github.com/Golevka2001/Earn-SEU-Points_Daily) 使用到移动端认证脚本登录东大信息化 App。
+项目 [zhjcreator/fetch_lecture](https://github.com/zhjcreator/fetch_lecture) 使用到新版认证脚本登录研究生素质讲座系统；
+
+项目 [Golevka2001/Earn-SEU-Points-Daily](https://github.com/Golevka2001/Earn-SEU-Points_Daily) 使用到移动端认证脚本登录东大信息化 App。
 
 ## 详细过程分析
 
