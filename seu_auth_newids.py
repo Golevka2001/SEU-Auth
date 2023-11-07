@@ -3,7 +3,7 @@
 函数说明：
 get_login_data()函数用于获取密钥、ticket等登录信息；
 aes_encrypt()函数用于使用AES密钥加密用户密码；
-seu_login()函数用于发起登陆请求，返回成功登录的session。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
+seu_login()函数用于发起登录请求，返回成功登录的session。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
 
 使用方法：
 1. 导入seu_login()函数；
@@ -104,7 +104,7 @@ def aes_encrypt(message: str, key: str):
 
 
 def seu_login(username: str, password: str):
-    """向统一身份认证平台发起登陆请求。
+    """向统一身份认证平台发起登录请求。
 
     Args:
         username: 一卡通号
@@ -124,7 +124,7 @@ def seu_login(username: str, password: str):
     if not encrypt_password:
         return None, None
 
-    # 发起登陆请求
+    # 发起登录请求
     try:
         url = 'https://newids.seu.edu.cn/authserver/login'
         # Headers目前测试依然不影响，看情况加

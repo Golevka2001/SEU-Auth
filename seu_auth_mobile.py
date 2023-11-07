@@ -2,7 +2,7 @@
 
 函数说明：
 get_user_info()函数用于获取已登录用户的身份信息（用于检查是否成功登录）；
-seu_login()函数用于发起登陆请求，返回成功登录的session。包括了对前一个函数的调用，一般只需要导入seu_login()函数即可。
+seu_login()函数用于发起登录请求，返回成功登录的session。包括了对前一个函数的调用，一般只需要导入seu_login()函数即可。
 
 使用方法：
 1. 导入seu_login()函数；
@@ -47,7 +47,7 @@ def get_user_info(session: requests.Session):
 
 
 def seu_login(username: str, password: str):
-    """向移动端身份认证平台发起登陆请求（注：用户名/密码错误对应的状态码是：401, Unauthorized）
+    """向移动端身份认证平台发起登录请求（注：用户名/密码错误对应的状态码是：401, Unauthorized）
 
     Args:
         username: 一卡通号
@@ -96,7 +96,7 @@ def seu_login(username: str, password: str):
             print('认证成功，用户姓名：', res['username'])
         return session
     except Exception as e:
-        print('登陆失败，错误信息：', e)
+        print('登录失败，错误信息：', e)
         return None
 
 

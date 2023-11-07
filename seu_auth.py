@@ -3,7 +3,7 @@
 函数说明：
 get_pub_key()函数用于获取RSA公钥；
 rsa_encrypt()函数用于使用RSA公钥加密用户密码；
-seu_login()函数用于发起登陆请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
+seu_login()函数用于发起登录请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
 
 使用方法：
 1. 导入seu_login()函数；
@@ -27,7 +27,7 @@ from Crypto.PublicKey import RSA
 
 def get_pub_key():
     """从服务器请求RSA公钥并保存cookie（使用session就不需要另外保存cookie）。
-    RSA公钥是变化的，并且应该和cookie有关联，每次登陆前需要重新获取。
+    RSA公钥是变化的，并且应该和cookie有关联，每次登录前需要重新获取。
 
     Returns:
         session: 包含了和公钥配对的cookie的session，用于后续发起登录请求
@@ -94,7 +94,7 @@ def rsa_encrypt(message: str, pub_key: str):
 
 
 def seu_login(username: str, password: str, service_url: str = ''):
-    """向统一身份认证平台发起登陆请求。
+    """向统一身份认证平台发起登录请求。
 
     Args:
         username: 一卡通号
@@ -103,7 +103,7 @@ def seu_login(username: str, password: str, service_url: str = ''):
 
     Returns:
         session: 成功通过身份认证的session，用于后续访问其他服务
-        redirect_url: 登陆后重定向到所要访问的服务的url
+        redirect_url: 登录后重定向到所要访问的服务的url
     """
     print('[seu_login]')
     # 获取RSA公钥
@@ -116,7 +116,7 @@ def seu_login(username: str, password: str, service_url: str = ''):
     if not encrypted_password:
         return None, None
 
-    # 发起登陆请求
+    # 发起登录请求
     try:
         url = 'https://auth.seu.edu.cn/auth/casback/casLogin'
         data = {
@@ -158,7 +158,7 @@ if __name__ == '__main__':
     service_url = 'http://ehall.seu.edu.cn/login?service=http://ehall.seu.edu.cn/new/index.html'
     session, redirect_url = seu_login(username, password, service_url)
     print(redirect_url)
-    # 登陆成功后获取用户信息
+    # 登录成功后获取用户信息
     if session and redirect_url:
         session.get(redirect_url)
         res = session.get(
