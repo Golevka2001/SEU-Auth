@@ -45,12 +45,12 @@ def get_postgraduate_lecture_list(username: str, password: str):
             raise Exception('获取重定向url失败')
 
         # 访问研究生素质讲座系统页面
-        res = session.get(redirect_url)
+        res = session.get(url=redirect_url, verify=False)
         if res.status_code != 200:
             raise Exception(f'访问研究生素质讲座系统失败[{res.status_code}, {res.reason}]')
         # 获取所有讲座信息
         res = session.post(
-            'http://ehall.seu.edu.cn/gsapp/sys/jzxxtjapp/modules/hdyy/hdxxxs.do',
+            url='http://ehall.seu.edu.cn/gsapp/sys/jzxxtjapp/modules/hdyy/hdxxxs.do',
             data={
                 'pageSize': 100,
                 'pageNumber': 1

@@ -59,7 +59,7 @@ def get_dekt_user_id(username: str, password: str):
         }
 
         # 访问第二课堂页面，获取用户id
-        res = session.get(redirect_url)
+        res = session.get(url=redirect_url, verify=False)
         if res.status_code != 200:
             raise Exception(f'访问第二课堂失败[{res.status_code}, {res.reason}]')
 

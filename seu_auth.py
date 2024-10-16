@@ -160,8 +160,8 @@ if __name__ == '__main__':
     print(redirect_url)
     # 登录成功后获取用户信息
     if session and redirect_url:
-        session.get(redirect_url)
+        session.get(url=redirect_url, verify=False)
         res = session.get(
-            'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841'
+            url='http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841'
         )
         print(res.json())

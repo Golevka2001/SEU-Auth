@@ -56,13 +56,13 @@ def login_to_ehall(username: str, password: str):
         }
 
         # 访问网上办事服务大厅首页
-        res = session.get(redirect_url)
+        res = session.get(url=redirect_url, verify=False)
         if res.status_code != 200:
             raise Exception('访问网上办事服务大厅失败')
 
         # 获取用户身份信息，检查是否登录成功
         user_info_url = 'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1693121329211'
-        res = session.get(user_info_url)
+        res = session.get(url=user_info_url)
         if res.status_code != 200:
             raise Exception(f'无法获取用户身份信息[{res.status_code}, {res.reason}]')
         if 'userId' in res.json():
