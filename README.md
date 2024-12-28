@@ -95,6 +95,7 @@ flowchart LR
 - [`examples/`](./examples/)
   - [`config.ini`](./examples/config.ini)：示例脚本的配置文件（一卡通号、密码）
   - [`get_postgraduate_lecture_list.py`](./examples/get_postgraduate_lecture_list.py)：获取研究生素质讲座列表的示例脚本
+  - [`get_captcha.py`](./examples/get_captcha.py)：获取验证码的示例脚本
   - [`get_seu_point.py`](./examples/get_seu_point.py)：查询东大信息化中的东豆余额的示例脚本
   - [`login_to_dekt.py`](./examples/login_to_dekt.py)：登录第二课堂的示例脚本
   - [`login_to_ehall.py`](./examples/login_to_ehall.py)：登录网上办事服务大厅的示例脚本
@@ -140,9 +141,10 @@ web 请求使用到 [requests](https://pypi.org/project/requests/) 库，HTML �
 在 [examples/](./examples/) 中给出了以下几个使用示例，分别是：
 
 1. [get_postgraduate_lecture_list.py](./examples/get_postgraduate_lecture_list.py)：获取研究生素质讲座列表（新版系统）；
-2. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂（新版系统）；
-3. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）；
-4. [query_seu_points.py](./examples/query_seu_points.py)：查询东大信息化中的东豆余额（移动端）。
+2. [get_captcha.py](./examples/get_captcha.py)：获取研究生讲座系统、本科生选课系统的验证码（新版系统）；
+3. [login_to_dekt.py](./examples/login_to_dekt.py)：登录东南大学第二课堂（新版系统）；
+4. [login_to_ehall.py](./examples/login_to_ehall.py)：登录东南大学网上办事服务大厅（新版系统）；
+5. [query_seu_points.py](./examples/query_seu_points.py)：查询东大信息化中的东豆余额（移动端）。
 
 _（注：括号中内容表示访问该应用所需要经过哪个身份认证系统）_
 

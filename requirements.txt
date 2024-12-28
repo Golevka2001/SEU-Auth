@@ -1,5 +1,6 @@
 beautifulsoup4~=4.12.2
 Js2Py~=0.74
+matplotlib~=3.9.4
 requests~=2.31.0
 pycryptodome~=3.19.0
 yapf~=0.40.2
