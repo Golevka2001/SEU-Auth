@@ -1,23 +1,29 @@
 """使用requests模拟登录新版东南大学统一身份认证平台（https://auth.seu.edu.cn/dist/#/dist/main/login）
 
 函数说明：
+init_ocr()函数用于初始化OCR识别器（处理验证码）；
+new_session()函数用于创建一个具有必要headers的seesion；
+is_captcha_required()函数用于在登录前检查是否需要验证码；
+solve_captcha()函数用于获取并OCR识别验证码（也可选手动输入）；
 get_pub_key()函数用于获取RSA公钥；
 rsa_encrypt()函数用于使用RSA公钥加密用户密码；
 seu_login()函数用于发起登录请求，返回成功登录的session和包含了ticket的重定向url。包括了对前两个函数的调用，一般只需要导入seu_login()函数即可。
 
 使用方法：
 1. 导入seu_login()函数；
-2. 调用seu_login()函数，传入一卡通号、密码以及后续所要访问的服务url（可选），获取session和重定向url；
+2. 调用seu_login()函数，传入一卡通号、密码、后续所要访问的服务url（可选）、session（可选）、OCR识别器（可选）、是否手动输入验证码（可选）；
 3. 使用session访问重定向url，执行后续操作。
 
 Author: Golevka2001 (https://github.com/Golevka2001)
 Email: gol3vka@163.com
 Date: 2023/08/20
+Last Update: 2024/12/30
 License: GPL-3.0 License
 """
 
 import base64
 import json
+from datetime import datetime
 from io import BytesIO
 from urllib.parse import unquote
 
@@ -303,7 +309,7 @@ if __name__ == '__main__':
         session.get(url=redirect_url, verify=False)
         res = session.get(
             url=
-            'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841',
+            f'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_={int(datetime.now().timestamp())}',
             verify=False)
         print(res.json())
 
