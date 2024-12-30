@@ -55,7 +55,7 @@ def get_pub_key():
         session.headers.update(headers)
         url = 'https://auth.seu.edu.cn/auth/casback/getChiperKey'
 
-        res = session.post(url=url)
+        res = session.post(url=url, verify=False)
         if res.status_code != 200:
             raise Exception(f'[{res.status_code}, {res.reason}]')
 
@@ -131,7 +131,7 @@ def seu_login(username: str, password: str, service_url: str = ''):
             'wxBinded': False,
         }
 
-        res = session.post(url=url, data=json.dumps(data))
+        res = session.post(url=url, data=json.dumps(data), verify=False)
         if res.status_code != 200:
             raise Exception(f'[{res.status_code}, {res.reason}]')
         if not res.json()['success']:
@@ -151,6 +151,22 @@ def seu_login(username: str, password: str, service_url: str = ''):
         return None, None
 
 
+def seu_logout(session):
+    """退出登录
+
+    Args:
+        session: 登录成功后的session
+    """
+    try:
+        url = 'https://auth.seu.edu.cn/auth/casback/casLogout'
+        res = session.post(url=url, verify=False)
+        if res.status_code != 200 or not res.json()['success']:
+            raise Exception(f'[{res.status_code}, {res.reason}]')
+        print('退出登录成功')
+    except Exception as e:
+        print('退出登录失败，错误信息：', e)
+
+
 if __name__ == '__main__':
     username = '【一卡通号】'
     password = '【密码】'
@@ -162,6 +178,9 @@ if __name__ == '__main__':
     if session and redirect_url:
         session.get(url=redirect_url, verify=False)
         res = session.get(
-            url='http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841'
-        )
+            url=
+            'http://ehall.seu.edu.cn/jsonp/userDesktopInfo.json?type=&_=1698982095841',
+            verify=False)
         print(res.json())
+    # 退出登录
+    seu_logout(session)
