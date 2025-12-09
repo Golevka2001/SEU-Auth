@@ -1,10 +1,10 @@
 # 认证流程请求细节
 
-本文档提供了 [认证流程概述](https://github.com/Golevka2001/SEU-Auth/wiki/overview-of-auth-process.md) 中提到的各请求的详细信息，包括参数说明、请求示例、响应示例以及注意事项。
+本文档提供了 [认证流程概述](https://github.com/Golevka2001/SEU-Auth/wiki/1%E2%80%90overview%E2%80%90of%E2%80%90auth%E2%80%90process) 中提到的各请求的详细信息，包括参数说明、请求示例、响应示例以及注意事项。
 
 ## 相关请求详情
 
-若您还不清楚下面每节的标题是什么，可先阅读 [认证流程概述](https://github.com/Golevka2001/SEU-Auth/wiki/overview-of-auth-process.md#主要步骤)。
+若您还不清楚下面每节的标题是什么，可先阅读 [认证流程概述](https://github.com/Golevka2001/SEU-Auth/wiki/1%E2%80%90overview%E2%80%90of%E2%80%90auth%E2%80%90process#主要步骤)。
 避免重复，下面不再介绍各请求在认证流程中的作用。
 
 注：下述请求示例中的 Headers 有省略，仅保留了我认为重要的部分，具体可自行抓包查看。
@@ -267,7 +267,7 @@ curl --request POST \
 填好上述参数后，即可发送登录请求，可能会被要求二次认证（和 `fingerPrint` 有较大关系）。
 二次验证时，需要请求发送短信验证码，并再次获取公钥，加密密码和短信验证码，更新 Body 再次发送该请求。
 
-`fingerPrint` 为 [fingerprintjs](https://github.com/fingerprintjs/fingerprintjs) 生成的设备指纹，你可以从浏览器真实请求中复制，或者从[在线演示](https://fingerprintjs.github.io/fingerprintjs/) 获得。
+`fingerPrint` 为 [fingerprintjs](https://github.com/fingerprintjs/fingerprintjs) 生成的设备指纹，你可以从浏览器真实请求中复制，或者从 [在线演示](https://fingerprintjs.github.io/fingerprintjs/) 获得。
 目前没发现有什么严格的限制，随便填一串十六进制字符也无所谓，总之记得持久化，应该能够减少二次认证的概率。
 
 注：若第一次被登录需要 captcha，又触发了二次认证，那么第二次登录请求中的 `captcha` 留空即可（截至本文最后更新时有效）。

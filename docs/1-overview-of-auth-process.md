@@ -1,8 +1,5 @@
 # 认证流程概述
 
-> 认证页面：<https://auth.seu.edu.cn/dist/#/dist/main/login>  
-> 最后更新于：2025-12-03
-
 本文档为 SEU 身份认证流程的概述，简要介绍介绍流程中的几个主要步骤的作用及顺序。
 
 由于**系统可能不时更新**，具体细节可能会有所变化（比如几个月前加了设备指纹和短信验证码），本文档**仅供参考**。
@@ -23,7 +20,7 @@ Base URL 为 <https://auth.seu.edu.cn/auth/casback/>
 7. `POST` `getChiperKey`：再次获取公钥，用于加密**用户密码和短信验证码**。
 8. `POST` `casLogin`：再次发起登录请求，若成功登录，则结束流程；否则登录失败。
 
-对上述各个请求的细节介绍以及请求、响应示例，请参考 [认证流程请求细节](https://github.com/Golevka2001/SEU-Auth/wiki/details-of-requests.md)。
+对上述各个请求的细节介绍以及请求、响应示例，请参考 [认证流程请求细节](https://github.com/Golevka2001/SEU-Auth/wiki/2%E2%80%90details%E2%80%90of%E2%80%90requests)。
 
 ## 流程图
 
