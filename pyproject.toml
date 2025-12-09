@@ -1,0 +1,48 @@
+[project]
+name = "seu-auth"
+version = "0.1.0"
+description = "SEU Authentication Library"
+readme = "README.md"
+authors = [{ name = "Gol3vka", email = "gol3vka@163.com" }]
+license = { text = "GPL-3.0-or-later" }
+keywords = ["seu", "auth"]
+requires-python = ">=3.10"
+dependencies = ["httpx>=0.28.1", "pycryptodome>=3.23.0"]
+
+[project.urls]
+Homepage = "https://github.com/Golevka2001/SEU-Auth"
+Repository = "https://github.com/Golevka2001/SEU-Auth"
+Issues = "https://github.com/Golevka2001/SEU-Auth/issues"
+
+[dependency-groups]
+dev = [
+    "black>=25.12.0",
+    "ddddocr>=1.5.6",
+    "isort>=7.0.0",
+    "pillow>=12.0.0",
+    "pytest>=9.0.2",
+    "rich>=14.2.0",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.ustc.edu.cn/pypi/simple"
+default = true
+
+[tool.uv.sources]
+seu-auth = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = ["src/seu_auth"]
+exclude = ["docs", "examples", "tests"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--verbose --strict-markers"
