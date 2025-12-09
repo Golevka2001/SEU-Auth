@@ -59,7 +59,7 @@ async with manager:
 `SEUAuthClient` 是比较底层的对各关键请求的封装，除非*您想完全自己控制每个步骤，或者有其它更复杂的需求*，否则用 `SEUAuthClient` 就足够了。
 如果一定要用的话，记得配合 [utils/parse.py](./src/seu_auth/utils/parse.py) 使用，将响应中的必要信息解析出来。
 
-当然，[这里也提供了一个相应的示例](./examples/how_to_use_auth_client.py)，另外 [SEUAuthManager](./auth_manager.py) 本身也可以当做它的示例。
+当然，[这里也提供了一个相应的示例](./examples/how_to_use_auth_client.py)，另外 [SEUAuthManager](./src/seu_auth/auth_manager.py) 本身也可以当做它的示例。
 
 ## :hammer_and_wrench: Development & Contribution
 
